@@ -21,5 +21,12 @@ class Poker_test < Minitest::Test
 		refute_equal('2C', draw_hands()[0])
 	end
 	def test_that_dealing_cards_works
-		assert_equal()
+		assert_equal(6, draw_hands()[0].count)
+	end
+	def test_that_players_line_up_right
+		assert_equal('Black:', draw_hands()[0][0])
+	end
+	def test_that_players_line_up_right
+		assert_equal('White:', draw_hands()[1][0])
+	end
 end

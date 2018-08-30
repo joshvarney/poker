@@ -10,8 +10,8 @@ def deck()
 	cards
 end
 def draw_hands()
-	black = ['black:']
-	white = ['white:']
+	black = ['Black:']
+	white = ['White:']
 	hands = []
 	shuffle = deck().shuffle!
 	counter = 0 
@@ -28,4 +28,10 @@ def draw_hands()
 	hands << black 
 	hands << white 				
 end
-p draw_hands
+def check_hands()
+	check = draw_hands()
+end	
+p check_hands[0][1..5]
+
+def straight_flush()
+end
