@@ -9,6 +9,20 @@ def deck()
 	end
 	cards
 end
+def card_values()
+	counter = 2
+	value_hash = Hash.new
+	deck().each_with_index do |card, value|
+		value = counter
+		value_hash[card] = value
+		if counter < 14
+			counter += 1
+		else
+			counter = 2
+		end
+	end
+	value_hash			
+end
 def draw_hands()
 	black = ['Black:']
 	white = ['White:']
@@ -31,7 +45,13 @@ end
 def check_hands()
 	check = draw_hands()
 end	
-p check_hands[0][1..5]
+	p check_hands
+# def checking_flush()
+	
+# 	suit_check = []
+# 	value_check = []
+# 	matching_suits = ["CCCCC", "DDDDD", "HHHHH", "SSSSS"]
 
-def straight_flush()
-end
+# 	straight_flush
+# end
+# p checking_flush
