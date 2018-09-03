@@ -44,7 +44,8 @@ end
 # end
 def check_hands()
 	# check_hands = draw_hands()
-	check_hands = [["Black:", "JD", "JC", "JH", "JS", "7D"], ["White:", "3C", "AD", "AS", "AH", "AC"]]
+	check_hands = [["Black:", "8D", "9C", "9H", "9S", "KD"], ["White:", "AC", "TD", "8S", "8H", "8C"]]
+
 
 
 end	
@@ -72,6 +73,27 @@ def replace_cards()
 	hand_values[1][1..5] = hand_values[1][1..5].sort
 	hand_values
 end	
+def card_names()
+	card_names = replace_cards()
+	count = 0
+	card_names.each do |hand|
+		counter = 0
+		hand.each do |card|
+			if card == 14
+	    		card_names[count][counter] = "Ace"
+	    	elsif card == 13
+				card_names[count][counter] = "King"
+	    	elsif card == 12
+	    		card_names[count][counter] = "Queen"
+	    	elsif card == 11
+	    		card_names[count][counter] = "Jack"
+	    	end
+	    	counter += 1
+	    end	
+	    count += 1
+	end    
+	card_names
+end
 def checking_flush()
 	checking_flush = check_hands	
 	suit_check = []
@@ -135,4 +157,50 @@ def checking_four()
 	end
 	checking_four	
 end
-p checking_four
+def checking_full_house()
+	checking_full_house = check_hands
+	count = 0
+	card_names.each do |x|
+		if x.last(5).uniq.length == 2
+			if x[5] == x[3] || x[1] == x[3]
+				unless x[5] == x[2] || x[1] == x[4]
+				    if x[5] == x[3]						
+						if count == 0
+							checking_full_house[0][6] = "full house #{x[5]}s and #{x[1]}s"
+						elsif count == 1
+							checking_full_house[1][6] = "full house #{x[5]}s and #{x[1]}s"
+						end
+					else
+						if count == 0
+							checking_full_house[0][6] = "full house #{x[1]}s and #{x[5]}s"
+						elsif count == 1
+							checking_full_house[1][6] = "full house #{x[1]}s and #{x[5]}s"
+						end	
+					end							
+				end	
+			end	
+		end
+		count += 1
+	end
+	checking_full_house
+end
+def checking_three()
+	checking_three = check_hands
+	counter = 0
+	replace_cards.each do |hands|
+		if hands.last(5).uniq.length == 3
+			if hands[5] == hands[3]
+				checking_three[counter][6] = "Three of a kind #{hands[5]}s"
+			elsif hands[1] == hands[3]
+				checking_three[counter][6] = "Three of a kind #{hands[1]}s"
+			elsif hands[2] == hands[4]
+				checking_three[counter][6] = "Three of a kind #{hands[2]}s"
+			end
+		end
+		counter += 1
+	end
+	checking_three
+end
+def checking_two_pair()
+	
+end					

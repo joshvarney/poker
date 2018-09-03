@@ -71,7 +71,25 @@ class Poker_test < Minitest::Test
 	# def test_that_four_works_for_white
 	# 	assert_equal([["Black:", "6D", "6C", "6H", "7S", "7D"], ["White:", "3C", "5D", "5S", "5H", "5C", "four of a kind"]], checking_four())
 	# end
-	def test_that_four_works_for_both
-		assert_equal([["Black:", "JD", "JC", "JH", "JS", "7D", "four of a kind"], ["White:", "3C", "AD", "AS", "AH", "AC", "four of a kind"]], checking_four())
+	# def test_that_four_works_for_both
+	# 	assert_equal([["Black:", "JD", "JC", "JH", "JS", "7D", "four of a kind"], ["White:", "3C", "AD", "AS", "AH", "AC", "four of a kind"]], checking_four())
+	# end
+	# def test_that_check_full_house_uniq_length_works
+	# 	assert_equal([["Black:", "JD", "JC", "JH", "7S", "7D", "full house"], ["White:", "3C", "AD", "AS", "AH", "AC"]], checking_full_house())
+	# end
+	# def test_that_check_full_house_works_with_white
+	# 	assert_equal([["Black:", "JD", "7C", "7H", "7S", "7D"], ["White:", "3C", "AD", "AS", "3H", "AC", "full house"]], checking_full_house())
+	# end
+	# def test_that_check_full_house_works_with_black
+	# 	assert_equal([["Black:", "JD", "JC", "7H", "7S", "7D", "full house"], ["White:", "3C", "AD", "JS", "KH", "7C"]], checking_full_house())
+	# end
+	# def test_that_check_full_house_works_with_both
+	# 	assert_equal([["Black:", "JD", "JC", "9H", "9S", "9D", "full house"], ["White:", "AC", "AD", "AS", "8H", "8C", "full house"]], checking_full_house())
+	# end
+	# def test_that_three_of_a_kind_works
+	# 	assert_equal([["Black:", "JD", "KC", "9H", "9S", "9D", "Three of a kind 9s"], ["White:", "AC", "AD", "AS", "8H", "8C"]], checking_three())		
+	# end
+	def test_that_three_of_a_kind_works2
+		assert_equal([["Black:", "8D", "9C", "9H", "9S", "KD", "Three of a kind 9s"], ["White:", "AC", "TD", "8S", "8H", "8C", "Three of a kind 8s"]], checking_three())	
 	end
 end
