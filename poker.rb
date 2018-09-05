@@ -49,7 +49,7 @@ class Draw_hands
 end
 class Hands_set
 	def initialize
-		@hand_values = []
+		# @hand_values = []
 		@stuff = Draw_hands.new
 		@the_right_one = @stuff.card_values()
 		@stuff.make_hands()
@@ -110,99 +110,108 @@ class Hands_set
 end
 class Checking_hands
 	def initialize	
-		p @things = Hands_set.new
+		@things = Hands_set.new
+		p @things	
+		@things.check_hands
 		p @check_hand = @things.check_hands
-		p @replace_card = @things.replace_cards
-		p @card_name = @things.card_names
-	end	
-	def checking_high_card
-		@checking_high_card = @check_hand
-		@checking_high_card[0][6] = "#{@card_name[0][5]} High"
-		@checking_high_card[1][6] = "#{@card_name[1][5]} High"
-		@checking_high_card
-		@checking_high_card
+		@things.replace_cards
+		p @replace_card = @things.hand_values
+		@things.card_names
+		p @card_name = @things.change_names
+		p @check_hand
+		p @replace_card
+		p @card_name
+		p @check_hand
 	end
-	def checking_pair
-		@checking_pair = @check_hand
-		@counter = 0
-		@card_name.each do |hands|
-			if hands.last(5).uniq.length == 4
-				if hands[5] == hands[4]
-					@checking_pair[@counter][6] = "Pair of #{hands[5]}s"
-				elsif hands[4] == hands[3]
-					@checking_pair[@counter][6] = "Pair of #{hands[4]}s"
-				elsif hands[3] == hands[2]
-					@checking_pair[@counter][6] = "Pair of #{hands[3]}s"
-				elsif hands[2] == hands[1]
-					@checking_pair[@counter][6] =	"Pair of #{hands[2]}s"
-				end
-			end
-			@counter += 1
-		end
-		@checking_pair
-	end
-	def checking_two_pair
-		@checking_two_pair = @check_hand
-		@counter = 0
-		@card_name.each do |hands|
-			if hands[1..5].uniq.length == 3
-				if hands[5] == hands[4] && hands[3] == hands[2]
-					@checking_two_pair[@counter][6] = "Two pair #{hands[5]}s and #{hands[3]}s"
-				elsif hands[1] == hands[2] && hands[3] == hands[4]
-					@checking_two_pair[@counter][6] = "Two pair #{hands[4]}s and #{hands[1]}s"	 
-				elsif hands[1] == hands[2] && hands[5] == hands[4]
-					@checking_two_pair[@counter][6] = "Two pair #{hands[5]}s and #{hands[1]}s"
-				end
-			end
-			@counter += 1
-		end
-		@checking_two_pair								
-	end
-	def checking_three
-		@checking_three = @check_hand
-		@counter = 0
-		@replace_card.each do |hands|
-			if hands[1..5].uniq.length == 3
-				if hands[5] == hands[3]
-					@checking_three[@counter][6] = "Three of a kind #{hands[5]}s"
-				elsif hands[1] == hands[3]
-					@checking_three[@counter][6] = "Three of a kind #{hands[1]}s"
-				elsif hands[2] == hands[4]
-					@checking_three[@counter][6] = "Three of a kind #{hands[2]}s"
-				end
-			end
-			@counter += 1
-		end
-		@checking_three
-	end
-	def checking_straight
-		@straight = @replace_card
-		p @straight
-		@checking_straight = @check_hand
-		@check01 = @straight[0][5] - @straight[0][4]
-		@check02 = @straight[0][4] - @straight[0][3]
-		@check03 = @straight[0][3] - @straight[0][2]
-		@check04 = @straight[0][2] - @straight[0][1]
-		if @check01 == 1 && @check02 == 1 && @check03 == 1 && @check04 == 1
-			@checking_straight[0][6] = "straight"
-		end	
-		@check11 = @straight[1][5] - @straight[1][4]
-		@check12 = @straight[1][4] - @straight[1][3]
-		@check13 = @straight[1][3] - @straight[1][2]
-		@check14 = @straight[1][2] - @straight[1][1]
-		if @check11 == 1 && @check12 == 1 && @check13 == 1 && @check14 == 1
-			@checking_straight[1][6] = "straight"
-		end
-		@checking_straight
-	end	
+	
+	# def checking_high_card
+	# 	@checking_high_card = @check_hand
+	# 	@checking_high_card[0][6] = "#{@card_name[0][5]} High"
+	# 	@checking_high_card[1][6] = "#{@card_name[1][5]} High"
+	# 	@checking_high_card
+	# 	@checking_high_card
+	# end
+	# def checking_pair
+	# 	@checking_pair = @check_hand
+	# 	@counter = 0
+	# 	@card_name.each do |hands|
+	# 		if hands.last(5).uniq.length == 4
+	# 			if hands[5] == hands[4]
+	# 				@checking_pair[@counter][6] = "Pair of #{hands[5]}s"
+	# 			elsif hands[4] == hands[3]
+	# 				@checking_pair[@counter][6] = "Pair of #{hands[4]}s"
+	# 			elsif hands[3] == hands[2]
+	# 				@checking_pair[@counter][6] = "Pair of #{hands[3]}s"
+	# 			elsif hands[2] == hands[1]
+	# 				@checking_pair[@counter][6] =	"Pair of #{hands[2]}s"
+	# 			end
+	# 		end
+	# 		@counter += 1
+	# 	end
+	# 	@checking_pair
+	# end
+	# def checking_two_pair
+	# 	@checking_two_pair = @check_hand
+	# 	@counter = 0
+	# 	@card_name.each do |hands|
+	# 		if hands[1..5].uniq.length == 3
+	# 			if hands[5] == hands[4] && hands[3] == hands[2]
+	# 				@checking_two_pair[@counter][6] = "Two pair #{hands[5]}s and #{hands[3]}s"
+	# 			elsif hands[1] == hands[2] && hands[3] == hands[4]
+	# 				@checking_two_pair[@counter][6] = "Two pair #{hands[4]}s and #{hands[1]}s"	 
+	# 			elsif hands[1] == hands[2] && hands[5] == hands[4]
+	# 				@checking_two_pair[@counter][6] = "Two pair #{hands[5]}s and #{hands[1]}s"
+	# 			end
+	# 		end
+	# 		@counter += 1
+	# 	end
+	# 	@checking_two_pair								
+	# end
+	# def checking_three
+	# 	@checking_three = @check_hand
+	# 	@counter = 0
+	# 	@replace_card.each do |hands|
+	# 		if hands[1..5].uniq.length == 3
+	# 			if hands[5] == hands[3]
+	# 				@checking_three[@counter][6] = "Three of a kind #{hands[5]}s"
+	# 			elsif hands[1] == hands[3]
+	# 				@checking_three[@counter][6] = "Three of a kind #{hands[1]}s"
+	# 			elsif hands[2] == hands[4]
+	# 				@checking_three[@counter][6] = "Three of a kind #{hands[2]}s"
+	# 			end
+	# 		end
+	# 		@counter += 1
+	# 	end
+	# 	@checking_three
+	# end
+	# def checking_straight
+	# 	@straight = @replace_card
+	# 	p @straight
+	# 	@checking_straight = @check_hand
+	# 	@check01 = @straight[0][5] - @straight[0][4]
+	# 	@check02 = @straight[0][4] - @straight[0][3]
+	# 	@check03 = @straight[0][3] - @straight[0][2]
+	# 	@check04 = @straight[0][2] - @straight[0][1]
+	# 	if @check01 == 1 && @check02 == 1 && @check03 == 1 && @check04 == 1
+	# 		@checking_straight[0][6] = "straight"
+	# 	end	
+	# 	@check11 = @straight[1][5] - @straight[1][4]
+	# 	@check12 = @straight[1][4] - @straight[1][3]
+	# 	@check13 = @straight[1][3] - @straight[1][2]
+	# 	@check14 = @straight[1][2] - @straight[1][1]
+	# 	if @check11 == 1 && @check12 == 1 && @check13 == 1 && @check14 == 1
+	# 		@checking_straight[1][6] = "straight"
+	# 	end
+	# 	@checking_straight
+	# end	
 end
- stuff1 = Checking_hands.new
-p stuff1.checking_high_card
-p stuff1.checking_pair
-p stuff1.checking_two_pair
-p stuff1.checking_three
-p stuff1.checking_straight
-p stuff1.replace_cards
+stuff1 = Checking_hands.new
+# p stuff1.checking_high_card
+# p stuff1.checking_pair
+# p stuff1.checking_two_pair
+# p stuff1.checking_three
+# p stuff1.checking_straight
+# p stuff1.make_replace_cards
 
 # def checking_flush()
 # 	checking_flush = check_hands	
