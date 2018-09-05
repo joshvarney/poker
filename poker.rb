@@ -202,5 +202,56 @@ def checking_three()
 	checking_three
 end
 def checking_two_pair()
-	
-end					
+	checking_two_pair = check_hands
+	counter = 0
+	card_names.each do |hands|
+		if hands.last(5).uniq.length == 3
+			if hands[5] == hands[4] && hands[3] == hands[2]
+				checking_two_pair[counter][6] = "Two pair #{hands[5]}s and #{hands[3]}s"
+			elsif hands[1] == hands[2] && hands[3] == hands[4]
+				checking_two_pair[counter][6] = "Two pair #{hands[4]}s and #{hands[1]}s"	 
+			elsif hands[1] == hands[2] && hands[5] == hands[4]
+				checking_two_pair[counter][6] = "Two pair #{hands[5]}s and #{hands[1]}s"
+			end
+		end
+		counter += 1
+	end
+	checking_two_pair								
+end
+def checking_pair
+	checking_pair = check_hands
+	counter = 0
+	card_names.each do |hands|
+		if hands.last(5).uniq.length == 4
+			if hands[5] == hands[4]
+				checking_pair[counter][6] = "Pair of #{hands[5]}s"
+			elsif hands[4] == hands[3]
+				checking_pair[counter][6] = "Pair of #{hands[4]}s"
+			elsif hands[3] == hands[2]
+				checking_pair[counter][6] = "Pair of #{hands[3]}s"
+			elsif hands[2] == hands[1]
+				checking_pair[counter][6] =	"Pair of #{hands[2]}s"
+			end
+		end
+		counter += 1
+	end
+	checking_pair
+end
+def checking_high_card
+	checking_high_card = check_hands
+	checking_high_card[0][6] = "#{card_names[0][5]} High"
+	checking_high_card[1][6] = "#{card_names[1][5]} High"
+	checking_high_card
+end	
+
+p checking_high_card	
+p checking_pair
+p checking_two_pair
+p checking_three
+p checking_four
+p checking_straight
+p checking_flush
+p checking_full_house
+p check_hands
+p card_names
+p replace_cards					

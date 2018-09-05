@@ -89,7 +89,7 @@ class Poker_test < Minitest::Test
 	# def test_that_three_of_a_kind_works
 	# 	assert_equal([["Black:", "JD", "KC", "9H", "9S", "9D", "Three of a kind 9s"], ["White:", "AC", "AD", "AS", "8H", "8C"]], checking_three())		
 	# end
-	def test_that_three_of_a_kind_works2
-		assert_equal([["Black:", "8D", "9C", "9H", "9S", "KD", "Three of a kind 9s"], ["White:", "AC", "TD", "8S", "8H", "8C", "Three of a kind 8s"]], checking_three())	
-	end
+	# def test_that_three_of_a_kind_works2
+	# 	assert_equal([["Black:", "8D", "9C", "9H", "9S", "KD", "Three of a kind 9s"], ["White:", "AC", "TD", "8S", "8H", "8C", "Three of a kind 8s"]], checking_three())	
+	# end
 end
