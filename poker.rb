@@ -1,155 +1,149 @@
-class Draw_hands
+class Build_deck
 	def initialize()
 		@cards = []
-		@values = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']
-		@suits = ['C', 'D', 'H', 'S']
-		@suits.each do |suit|
-			@values.each { |value|
+		values = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']
+		suits = ['C', 'D', 'H', 'S']
+		suits.each do |suit|
+			values.each { |value|
 				@cards << value + suit
 			}
 		end
 		@cards
 	end
-	def card_values()
-		@counter = 2
+	attr_reader :cards
+end
+class Card_values	
+	def initialize
+		deck = Build_deck.new
+		counter = 2
 		@value_hash = Hash.new
-		@cards.each_with_index do |card, value|
-			value = @counter
+		deck.cards.each_with_index do |card, value|
+			value = counter
 			@value_hash[card] = value
-			if @counter < 14
-				@counter += 1
+			if counter < 14
+				counter += 1
 			else
-				@counter = 2
+				counter = 2
 			end
 		end
-		@value_hash			
-	end
-	def make_hands()
-		@black = ['Black:']
-		@white = ['White:']
-		@hands = []
-		@shuffle = @cards.shuffle!
-		@counter = 0 
-		@shuffle.each_with_index do |deal, index|
-			unless @counter < 3	|| @counter > 12
-				if index.even? == false
-					@black << deal
-				else
-					@white << deal
-				end
-			end
-			@counter += 1	
-		end
-		@hands << @black 
-		@hands << @white 				
+		@value_hash		
 	end
 	attr_reader :value_hash
-	attr_reader :cards
-	attr_reader :hands
-end
-class Hands_set
+end	
+class Deal_hands	
 	def initialize
-		# @hand_values = []
-		@stuff = Draw_hands.new
-		@the_right_one = @stuff.card_values()
-		@stuff.make_hands()
-		# @check_hands = @stuff.hands
-		@check_hands = [["Black:", "8D", "9C", "9H", "9S", "KD"], ["White:", "AC", "TD", "8S", "8H", "8C"]]
+		cards = Build_deck.new
+		cards = cards.cards
+		black = ['Black:']
+		white = ['White:']
+		@hands = []
+		shuffle = cards.shuffle!
+		counter = 0 
+		shuffle.each_with_index do |deal, index|
+			unless counter < 3	|| counter > 12
+				if index.even? == false
+					black << deal
+				else
+					white << deal
+				end
+			end
+			counter += 1	
+		end
+		@hands << black 
+		@hands << white 				
 	end
-
-	def replace_cards
-		@hand_values = @check_hands
-		@the_right_one.each do |key, value|
-			@counter = 0
-			@hand_values[0].each { |stuff|
-				if stuff == key
-					@hand_values[0][@counter] = value				
+	attr_accessor :hands
+end
+class Group
+	def initialize
+		card_values = Card_values.new
+		value_hash = card_values.value_hash
+		stuff = Deal_hands.new
+		@check_hands = stuff.hands
+		@check_hands[2] = []
+		@check_hands[3] = []
+		count = 2
+		@check_hands[0..1].each do |hand|
+			hand[1..5].each { |card| value_hash.each { |key, value| 
+				if card == key
+					@check_hands[count] << value
 				end
-				@counter += 1
+				}
 			}
+			count += 1	 
 		end
-		@the_right_one.each do |key, value|
-			@counter = 0
-			@hand_values[1].each { |stuff|
-				if stuff == key
-					@hand_values[1][@counter] = value				
-				end
-				@counter += 1
-			}
-		end
-		@hand_values[0][1..5] = @hand_values[0][1..5].sort
-		@hand_values[1][1..5] = @hand_values[1][1..5].sort
-		@hand_values
-	end	
-	def card_names
-		@card_names = @check_hands
-		@count = 0
-		@card_names.each do |hand|
-			@counter = 0
+		@check_hands[2] = @check_hands[2].sort
+		@check_hands[3] = @check_hands[3].sort
+		@check_hands
+		@check_hands[4] = []
+		@check_hands[5] = []
+		count = 4		
+		@check_hands[2..3].each do |hand|
 			hand.each do |card|
 				if card == 14
-		    		@card_names[@count][@counter] = "Ace"
+		    		@check_hands[count] << "Ace"
 		    	elsif card == 13
-					@card_names[@count][@counter] = "King"
+					@check_hands[count] << "King"
 		    	elsif card == 12
-		    		@card_names[@count][@counter] = "Queen"
+		    		@check_hands[count] << "Queen"
 		    	elsif card == 11
-		    		@card_names[@count][@counter] = "Jack"
+		    		@check_hands[count] << "Jack"
+		    	else
+		    		@check_hands[count] << card	
 		    	end
-		    	@counter += 1
 		    end	
-		    @count += 1
+		    count += 1
 		end    
-		@change_names = @card_names
-		@change_names
+		@check_hands
 	end
-	attr_reader :stuff
 	attr_reader :check_hands
-	attr_reader :hand_values
-	attr_reader :change_names
 end
 class Checking_hands
-	def initialize	
-		@things = Hands_set.new
-		p @things	
-		@things.check_hands
-		p @check_hand = @things.check_hands
-		@things.replace_cards
-		p @replace_card = @things.hand_values
-		@things.card_names
-		p @card_name = @things.change_names
-		p @check_hand
-		p @replace_card
-		p @card_name
-		p @check_hand
-	end
+  	def initialize
+  		@player_hands = []
+  		@hand_group = []
+  		@player_hands = Group.new
+  		@player_hands.check_hands
+  		@hand_group = @player_hands.check_hands
+  		@hand_group
+  	end
+  	p @hand_group
+  	def checking_high_card
+  		@hand_group = @hand_group[0][5]
+ 		# checking_high_card[0][6] = "#{@card_name[0][5]} High"
+ 		# checking_high_card[1][6] = "#{@card_name[1][5]} High"
+ 		# checking_high_card
+ 		p @hand_group
+
+ 	end
+
+  	attr_reader :hand_group
+end
+object = Checking_hands.new
+p object.hand_group  	
 	
-	# def checking_high_card
-	# 	@checking_high_card = @check_hand
-	# 	@checking_high_card[0][6] = "#{@card_name[0][5]} High"
-	# 	@checking_high_card[1][6] = "#{@card_name[1][5]} High"
-	# 	@checking_high_card
-	# 	@checking_high_card
+# 	
+# p checking_high_card
+# 	def checking_pair
+# 		checking_pair = hand_group
+# 		# @counter = 0
+		# @card_name.each do |hands|
+		# 	if hands.last(5).uniq.length == 4
+		# 		if hands[5] == hands[4]
+		# 			@checking_pair[@counter][6] = "Pair of #{hands[5]}s"
+		# 		elsif hands[4] == hands[3]
+		# 			@checking_pair[@counter][6] = "Pair of #{hands[4]}s"
+		# 		elsif hands[3] == hands[2]
+		# 			@checking_pair[@counter][6] = "Pair of #{hands[3]}s"
+		# 		elsif hands[2] == hands[1]
+		# 			@checking_pair[@counter][6] =	"Pair of #{hands[2]}s"
+		# 		end
+		# 	end
+		# 	@counter += 1
+		# end
+		# @checking_pair
 	# end
-	# def checking_pair
-	# 	@checking_pair = @check_hand
-	# 	@counter = 0
-	# 	@card_name.each do |hands|
-	# 		if hands.last(5).uniq.length == 4
-	# 			if hands[5] == hands[4]
-	# 				@checking_pair[@counter][6] = "Pair of #{hands[5]}s"
-	# 			elsif hands[4] == hands[3]
-	# 				@checking_pair[@counter][6] = "Pair of #{hands[4]}s"
-	# 			elsif hands[3] == hands[2]
-	# 				@checking_pair[@counter][6] = "Pair of #{hands[3]}s"
-	# 			elsif hands[2] == hands[1]
-	# 				@checking_pair[@counter][6] =	"Pair of #{hands[2]}s"
-	# 			end
-	# 		end
-	# 		@counter += 1
-	# 	end
-	# 	@checking_pair
-	# end
+# p checking_pair	
 	# def checking_two_pair
 	# 	@checking_two_pair = @check_hand
 	# 	@counter = 0
@@ -204,8 +198,8 @@ class Checking_hands
 	# 	end
 	# 	@checking_straight
 	# end	
-end
-stuff1 = Checking_hands.new
+# end
+# stuff1 = Checking_hands.new
 # p stuff1.checking_high_card
 # p stuff1.checking_pair
 # p stuff1.checking_two_pair
