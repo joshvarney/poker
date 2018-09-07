@@ -60,7 +60,7 @@ class Group
 		value_hash = card_values.value_hash
 		# stuff = Deal_hands.new
 		# @check_hands = stuff.hands
-		@check_hands = [["Black:", "JD", "JD", "JD", "JS", "9D"], ["White:", "JS", "KD", "KS", "KS", "KS"]]
+		@check_hands = [["Black:", "JD", "JS", "9D", "JH", "9C"], ["White:", "KC", "KD", "QH", "KS", "QS"]]
 		@check_hands[2] = []
 		@check_hands[3] = []
 		count = 2
@@ -104,7 +104,9 @@ class Checking_hands
   		@player_hands = Group.new
    		@hand_group = @player_hands.check_hands
  	  	@hand_group[0][6] = "#{@hand_group[4][4]} High"
+ 	  	@hand_group[7] = [0, @hand_group[2][4], @hand_group[2][3], @hand_group[2][2], @hand_group[2][1], @hand_group[2][0]]
  	  	@hand_group[1][6] = "#{@hand_group[5][4]} High"
+ 	  	@hand_group[8] = [0, @hand_group[3][4], @hand_group[3][3], @hand_group[3][2], @hand_group[3][1], @hand_group[3][0]]
  	  	checking_pair << @hand_group
  	  	checking_two_pair << @hand_group
  	  	checking_three << @hand_group
@@ -114,23 +116,27 @@ class Checking_hands
  	  	checking_four << @hand_group
  	end
  	def checking_pair
- 		@checking_pair = @hand_group
+ 		checking_pair = @hand_group
 		counter = 0
-		@checking_pair[4..5].each do |hands|
+		checking_pair[4..5].each do |hands|
 			if hands.uniq.length == 4
 				if hands[4] == hands[3]
-					@checking_pair[counter][6] = "Pair of #{hands[4]}s"
+					checking_pair[counter][6] = "Pair of #{hands[4]}s"
+					checking_pair[counter + 7] = [10, checking_pair[counter + 2][4], checking_pair[counter + 2][3], checking_pair[counter + 2][2], checking_pair[counter + 2][1], checking_pair[counter + 2][0]]				
 				elsif hands[3] == hands[2]
-					@checking_pair[counter][6] = "Pair of #{hands[3]}s"
+					checking_pair[counter][6] = "Pair of #{hands[3]}s"
+					checking_pair[counter + 7] = [10, checking_pair[counter + 2][3], checking_pair[counter + 2][2], checking_pair[counter + 2][4], checking_pair[counter + 2][1], checking_pair[counter + 2][0]]				
 				elsif hands[2] == hands[1]
-					@checking_pair[counter][6] = "Pair of #{hands[2]}s"
+					checking_pair[counter][6] = "Pair of #{hands[2]}s"
+					checking_pair[counter + 7] = [10, checking_pair[counter + 2][2], checking_pair[counter + 2][1], checking_pair[counter + 2][4], checking_pair[counter + 2][3], checking_pair[counter + 2][0]]				
 				elsif hands[1] == hands[0]
-					@checking_pair[counter][6] = "Pair of #{hands[1]}s"
+					checking_pair[counter][6] = "Pair of #{hands[1]}s"
+					checking_pair[counter + 7] = [10, checking_pair[counter + 2][1], checking_pair[counter + 2][0], checking_pair[counter + 2][4], checking_pair[counter + 2][3], checking_pair[counter + 2][2]]				
 				end
 			end
 			counter += 1
 		end
-		@checking_pair 
+		checking_pair 
 	end
 	def checking_two_pair
 		checking_two_pair = @hand_group
@@ -139,10 +145,13 @@ class Checking_hands
 			if hands.uniq.length == 3
 				if hands[4] == hands[3] && hands[2] == hands[1]
 					checking_two_pair[counter][6] = "Two Pair #{hands[4]}s and #{hands[2]}s"
+					checking_two_pair[counter + 7] = [20, checking_two_pair[counter + 2][4], checking_two_pair[counter + 2][3], checking_two_pair[counter + 2][2], checking_two_pair[counter + 2][1], checking_two_pair[counter + 2][0]]
 				elsif hands[0] == hands[1] && hands[2] == hands[3]
 					checking_two_pair[counter][6] = "Two Pair #{hands[3]}s and #{hands[0]}s"	 
+					checking_two_pair[counter + 7] = [20, checking_two_pair[counter + 2][3], checking_two_pair[counter + 2][2], checking_two_pair[counter + 2][1], checking_two_pair[counter + 2][0], checking_two_pair[counter + 2][4]]
 				elsif hands[0] == hands[1] && hands[4] == hands[3]
 					checking_two_pair[counter][6] = "Two Pair #{hands[4]}s and #{hands[0]}s"
+					checking_two_pair[counter + 7] = [20, checking_two_pair[counter + 2][4], checking_two_pair[counter + 2][3], checking_two_pair[counter + 2][1], checking_two_pair[counter + 2][0], checking_two_pair[counter + 2][2]]
 				end
 			end	
 			counter += 1
@@ -156,10 +165,13 @@ class Checking_hands
 			if hands.uniq.length == 3
 				if hands[4] == hands[2]
 					checking_three[counter][6] = "Three of a Kind #{hands[4]}s"
+					checking_three[counter + 7] = [30, checking_three[counter + 2][4], checking_three[counter + 2][3], checking_three[counter + 2][2], checking_three[counter + 2][1], checking_three[counter + 2][0]]
 				elsif hands[0] == hands[2]
 					checking_three[counter][6] = "Three of a Kind #{hands[0]}s"
+					checking_three[counter + 7] = [30, checking_three[counter + 2][0], checking_three[counter + 2][1], checking_three[counter + 2][2], checking_three[counter + 2][4], checking_three[counter + 2][3]]
 				elsif hands[1] == hands[3]
 					checking_three[counter][6] = "Three of a Kind #{hands[1]}s"
+					checking_three[counter + 7] = [30, checking_three[counter + 2][1], checking_three[counter + 2][2], checking_three[counter + 2][3], checking_three[counter + 2][4], checking_three[counter + 2][0]]
 				end
 			end
 			counter += 1
@@ -176,6 +188,7 @@ class Checking_hands
 			check4 = hand[1] - hand[0]
 			if check1 == 1 && check2 == 1 && check3 == 1 && check4 == 1
 				checking_straight[counter][6] = "Straight"
+				checking_straight[counter + 7] = [40, checking_straight[counter + 2][4], checking_straight[counter + 2][3], checking_straight[counter + 2][2], checking_straight[counter + 2][1], checking_straight[counter + 2][0]]
 			end
 			counter += 1
 		end		
@@ -197,11 +210,14 @@ class Checking_hands
 			if hand.uniq.length == 1 && checking_flush[counter][6] == "Straight"
 				if checking_flush[4 + counter][4] == "Ace"
 					checking_flush[counter][6] = "Royal Straight Flush"
+					checking_flush[counter + 7] = [90, checking_flush[counter + 2][4], checking_flush[counter + 2][3], checking_flush[counter + 2][2], checking_flush[counter + 2][1], checking_flush[counter + 2][0]]
 				else	
 					checking_flush[counter][6] = "Straight Flush"
+				checking_flush[counter + 7] = [80, checking_flush[counter + 2][4], checking_flush[counter + 2][3], checking_flush[counter + 2][2], checking_flush[counter + 2][1], checking_flush[counter + 2][0]]
 				end	
 			elsif hand.uniq.length == 1 && checking_flush[counter][6] != "Straight"
 				checking_flush[counter][6] = "Flush"	
+				checking_flush[counter + 7] = [50, checking_flush[counter + 2][4], checking_flush[counter + 2][3], checking_flush[counter + 2][2], checking_flush[counter + 2][1], checking_flush[counter + 2][0]]
 			end
 			counter += 1
 		end
@@ -216,8 +232,10 @@ class Checking_hands
 					unless x[4] == x[1] || x[0] == x[3]
 					    if x[4] == x[2]								
 							checking_full_house[count][6] = "Full House #{x[4]}s and #{x[0]}s"
+							checking_full_house[count + 7] = [60, checking_full_house[count + 2][4], checking_full_house[count + 2][3], checking_full_house[count + 2][2], checking_full_house[count + 2][1], checking_full_house[count + 2][0]]
 						else
 							checking_full_house[count][6] = "Full House #{x[0]}s and #{x[4]}s"
+							checking_full_house[count + 7] = [60, checking_full_house[count + 2][0], checking_full_house[count + 2][1], checking_full_house[count + 2][2], checking_full_house[count + 2][3], checking_full_house[count + 2][4]]
 						end							
 					end	
 				end	
@@ -230,13 +248,12 @@ class Checking_hands
 		checking_four = @hand_group
 		counter = 0
 		checking_four[4..5].each do |x|
-			p x
 			if x[4] == x[3] && x[3] == x[2] && x[2] == x[1]
 				checking_four[counter][6] = "Four of a Kind #{x[4]}s"
-				checking_four[counter + 7] = checking_four[counter + 2][4]
+				checking_four[counter + 7] = [70, checking_four[counter + 2][4], checking_four[counter + 2][3], checking_four[counter + 2][2], checking_four[counter + 2][1], checking_four[counter + 2][0]]
 			elsif x[0] == x[1] && x[1] == x[2] && x[2] == x[3]	
 				checking_four[counter][6] = "Four of a Kind #{x[0]}s"
-				checking_four[counter + 7] = checking_four[counter + 2][0]
+				checking_four[counter + 7] = [70, checking_four[counter + 2][0], checking_four[counter + 2][1], checking_four[counter + 2][2], checking_four[counter + 2][3], checking_four[counter + 2][4]]
 			end
 			counter += 1		
 		end
@@ -248,52 +265,65 @@ class Pick_winner
 	def initialize
 		final = Checking_hands.new
 		@final_hands = final.hand_group
-		check_winner << @final_hands
+		# check_winner << @final_hands
 	end
-	def check_winner
-		check_winner = @final_hands
-		black = check_winner[0][6]
-		white = check_winner[1][6]
-		black_high = check_winner[2]
-		white_high = check_winner[3]
-		black_name = check_winner[4]
-		white_name = check_winner[5]
-		result = []
-			if black == "Royal Straight Flush" && white == "Royal Straight Flush" 
-				result << "Tie"
-			elsif black == "Royal Straight Flush"
-				result << "Black wins. - with Royal Straight Flush"
-			elsif white == "Royal Straight Flush"
-				result << "White wins. - with Royal Straight Flush"
-			elsif black == "Straight Flush" && white == "Straight Flush"
-				if black_high[4] == white_high[4]
-					result << "Tie" 
-				elsif black_high[4] > white_high[4]
-					result << "Black wins. - with #{black_name[4]} High Straight Flush"
-				elsif black_high[4] < white_high[4]
-					result << "White wins. - with #{white_name[4]} High Straight Flush"
-				end
-			elsif black == "Straight Flush"
-				result << "Black wins. -with #{black_name[4]} High Straight Flush"		
-			elsif white == "Straight Flush"
-				result << "White wins. -with #{white_name[4]} High Straight Flush"
-			elsif black.include?("Four of a Kind") && white.include?("Four of a Kind")
-				result << "Somethings"
-
-			end
-		check_winner[6] = result
-		check_winner	
-	end		
+	# def check_winner
+	# 	check_winner = @final_hands
+	# 	black = check_winner[0][6]
+	# 	white = check_winner[1][6]
+	# 	black_high = check_winner[2]
+	# 	white_high = check_winner[3]
+	# 	black_name = check_winner[4]
+	# 	white_name = check_winner[5]
+	# 	result = []
+	# 		if black == "Royal Straight Flush" && white == "Royal Straight Flush" 
+	# 			result << "Tie"
+	# 		elsif black == "Royal Straight Flush"
+	# 			result << "Black wins. - with Royal Straight Flush"
+	# 		elsif white == "Royal Straight Flush"
+	# 			result << "White wins. - with Royal Straight Flush"
+	# 		elsif black == "Straight Flush" && white == "Straight Flush"
+	# 			if black_high[4] == white_high[4]
+	# 				result << "Tie" 
+	# 			elsif black_high[4] > white_high[4]
+	# 				result << "Black wins. - with #{black_name[4]} High Straight Flush"
+	# 			elsif black_high[4] < white_high[4]
+	# 				result << "White wins. - with #{white_name[4]} High Straight Flush"
+	# 			end
+	# 		elsif black == "Straight Flush"
+	# 			result << "Black wins. -with #{black_name[4]} High Straight Flush"		
+	# 		elsif white == "Straight Flush"
+	# 			result << "White wins. -with #{white_name[4]} High Straight Flush"
+	# 		elsif black.include?("Four of a Kind") && white.include?("Four of a Kind")
+	# 			if check_winner[7] > check_winner[8]
+	# 				result << "Black wins. -with #{black}"
+	# 			elsif check_winner[7] < check_winner[8]
+	# 				result << "White wins. -with #{white}"
+	# 			end	
+	# 		elsif black.include?("Four of a Kind")
+	# 			result << "Black wins. -with #{black}"
+	# 		elsif white.include?("Four of a Kind")
+	# 			result << "White wins. -with #{white}"				
+	# 		elsif black.include?("Full House") && white.include?("Full House")
+	# 			if check_winner[7] > check_winner[8]
+	# 				result << "Black wins. -with #{black}"
+	# 			elsif check_winner[7] < check_winner[8]
+	# 				result << "White wins. -with #{white}"	
+	# 		end
+	# 	check_winner[6] = result
+	# 	check_winner	
+	# end		
 	attr_accessor :final_hands
-	# royal straight flush
-	# straight flush
-	# four of a kind
-	# full house
-	# flush
-	# straight
-	# three of a kind
-	# two pairs
-	# high card
+	# royal straight flush 90!
+	# straight flush 80!
+	# four of a kind 70!
+	# full house 60!
+	# flush 50!
+	# straight 40!
+	# three of a kind 30!
+	# two pairs 20!
+	# a pair 10!
+	# high card 0!
 end
 object = Pick_winner.new
 final_hands = object.final_hands
