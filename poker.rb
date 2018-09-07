@@ -58,9 +58,9 @@ class Group
 	def initialize
 		card_values = Card_values.new
 		value_hash = card_values.value_hash
-		 # stuff = Deal_hands.new
-		 # @check_hands = stuff.hands
-		 @check_hands = [["Black:", "JS", "JS", "JD", "JC", "9D"], ["White:", "2S", "2S", "TC", "2C", "KD"]]
+		stuff = Deal_hands.new
+		@check_hands = stuff.hands
+		 # @check_hands = [["Black:", "KD", "TD", "JD", "QD", "AD"], ["White:", "9S", "9S", "9S", "7S", "7S"]]
 		@check_hands[2] = []
 		@check_hands[3] = []
 		count = 2
@@ -108,6 +108,9 @@ class Checking_hands
  	  	checking_pair << @hand_group
  	  	checking_two_pair << @hand_group
  	  	checking_three << @hand_group
+ 	  	checking_straight << @hand_group
+ 	  	checking_flush << @hand_group
+ 	  	checking_full_house << @hand_group
  	end
  	def checking_pair
  		@checking_pair = @hand_group
@@ -162,103 +165,81 @@ class Checking_hands
 		end
 		checking_three
 	end
-	# def checking_straight
-	# 	@straight = @replace_card
-	# 	p @straight
-	# 	@checking_straight = @check_hand
-	# 	@check01 = @straight[0][5] - @straight[0][4]
-	# 	@check02 = @straight[0][4] - @straight[0][3]
-	# 	@check03 = @straight[0][3] - @straight[0][2]
-	# 	@check04 = @straight[0][2] - @straight[0][1]
-	# 	if @check01 == 1 && @check02 == 1 && @check03 == 1 && @check04 == 1
-	# 		@checking_straight[0][6] = "straight"
-	# 	end	
-	# 	@check11 = @straight[1][5] - @straight[1][4]
-	# 	@check12 = @straight[1][4] - @straight[1][3]
-	# 	@check13 = @straight[1][3] - @straight[1][2]
-	# 	@check14 = @straight[1][2] - @straight[1][1]
-	# 	if @check11 == 1 && @check12 == 1 && @check13 == 1 && @check14 == 1
-	# 		@checking_straight[1][6] = "straight"
-	# 	end
-	# 	@checking_straight
-	# end
-	# def checking_flush()
-	# 	checking_flush = check_hands	
-	# 	suit_check = []
-	# 	compare_suits = []
-	# 	matching_suits = ["CCCCC", "DDDDD", "HHHHH", "SSSSS"]
-	# 		check_hands().each do |hand|
-	# 			hand.each do |elements|
-	# 				unless elements == "Black:" || elements == "White:"
-	# 					suits = elements.split('')
-	# 					suit_check << suits[1]
-	# 				end 
-	# 			end
-	# 		end
-	# 	compare_suits << suit_check[0..4].join  
-	# 	compare_suits << suit_check[5..9].join
-	# 		compare_suits.each_with_index do |hand, index|
-	# 			matching_suits.each do |suits|
-	# 				if hand == suits && index == 0
-	# 					checking_flush[0][6] = "flush"
-	# 				elsif hand == suits && index == 1
-	# 					checking_flush[1][6] = "flush"
-	# 				end				 	 
-	# 			end
-	# 		end
-	# 	checking_flush	 
-	# end
-	# def checking_full_house()
-	# 	checking_full_house = check_hands
-	# 	count = 0
-	# 	card_names.each do |x|
-	# 		if x.last(5).uniq.length == 2
-	# 			if x[5] == x[3] || x[1] == x[3]
-	# 				unless x[5] == x[2] || x[1] == x[4]
-	# 				    if x[5] == x[3]						
-	# 						if count == 0
-	# 							checking_full_house[0][6] = "full house #{x[5]}s and #{x[1]}s"
-	# 						elsif count == 1
-	# 							checking_full_house[1][6] = "full house #{x[5]}s and #{x[1]}s"
-	# 						end
-	# 					else
-	# 						if count == 0
-	# 							checking_full_house[0][6] = "full house #{x[1]}s and #{x[5]}s"
-	# 						elsif count == 1
-	# 							checking_full_house[1][6] = "full house #{x[1]}s and #{x[5]}s"
-	# 						end	
-	# 					end							
-	# 				end	
-	# 			end	
-	# 		end
-	# 		count += 1
-	# 	end
-	# 	checking_full_house
-	# end
-	# def checking_four()
-	# 	checking_four = check_hands
-	# 	four = replace_cards
-	# 	counter = 0
-	# 	four.each do |x|
-	# 		if x[5] == x[4] && x[4] == x[3] && x[3] == x[2] && counter == 0
-	# 			checking_four[0][6] = "four of a kind"
-	# 		elsif x[1] == x[2] && x[2] == x[3] && x[3] == x[4] && counter == 0	
-	# 			checking_four[0][6] = "four of a kind"
-	# 		elsif x[5] == x[4] && x[4] == x[3] && x[3] == x[2] && counter == 1
-	# 			checking_four[1][6] = "four of a kind"
-	# 		elsif x[1] == x[2] && x[2] == x[3] && x[3] == x[4] && counter == 1	
-	# 			checking_four[1][6] = "four of a kind"
-	# 		end
-	# 		counter += 1		
-	# 	end
-	# 	checking_four	
-	# end
-
-	# make function for straight flush
-
-	# make function for royal straight flush
-
+	def checking_straight
+		checking_straight = @hand_group
+		counter = 0
+		checking_straight[2..3].each do |hand|
+			check1 = hand[4] - hand[3]
+			check2 = hand[3] - hand[2]
+			check3 = hand[2] - hand[1]
+			check4 = hand[1] - hand[0]
+			if check1 == 1 && check2 == 1 && check3 == 1 && check4 == 1
+				checking_straight[counter][6] = "Straight"
+			end
+			counter += 1
+		end		
+	end
+	def checking_flush
+		checking_flush = @hand_group	
+		suit_check = []
+		compare_suits = []
+			checking_flush[0..1].each do |hand|
+				hand[1..5].each do |suits|			
+					suits = suits.split('')
+					suit_check << suits[1]			 
+				end
+			end
+		counter = 0
+		compare_suits << suit_check[0..4]		
+		compare_suits << suit_check[5..9] 	
+		compare_suits.each do |hand|
+			if hand.uniq.length == 1 && checking_flush[counter][6] == "Straight"
+				if checking_flush[4 + counter][4] == "Ace"
+					checking_flush[counter][6] = "Royal Straight Flush"
+				else	
+					checking_flush[counter][6] = "Straight Flush"
+				end	
+			elsif hand.uniq.length == 1 && checking_flush[counter][6] != "Straight"
+				checking_flush[counter][6] = "Flush"	
+			end
+			counter += 1
+		end
+		checking_flush
+	end		
+	def checking_full_house
+		checking_full_house = @hand_group
+		count = 0
+		checking_full_house[4..5].each do |x|
+			if x.uniq.length == 2
+				if x[4] == x[2] || x[0] == x[2]
+					unless x[4] == x[1] || x[0] == x[3]
+					    if x[4] == x[2]								
+							checking_full_house[count][6] = "Full House #{x[4]}s and #{x[0]}s"
+						else
+							checking_full_house[count][6] = "Full House #{x[0]}s and #{x[4]}s"
+						end							
+					end	
+				end	
+			end
+			count += 1
+		end
+		checking_full_house
+	end
+	def checking_four
+		checking_four = @hand_group
+		counter = 0
+		checking_four[4..5].each do |x|
+			if x[4] == x[3] && x[3] == x[2] && x[2] == x[1]
+				checking_four[counter][6] = "four of a kind #{x[4]}s"
+			elsif x[0] == x[1] && x[1] == x[2] && x[2] == x[3]	
+				checking_four[counter][6] = "four of a kind #{x[0]}s"
+			end
+			counter += 1		
+		end
+		checking_four	
+	end
 	attr_accessor :hand_group
 end
 object = Checking_hands.new
-p object.hand_group
+p object.hand_group[0]
+p object.hand_group[1]
