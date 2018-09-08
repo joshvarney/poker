@@ -1,5 +1,5 @@
 class Build_deck
-	def initialize()
+	def initialize
 		@cards = []
 		values = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']
 		suits = ['C', 'D', 'H', 'S']
@@ -290,21 +290,17 @@ class Pick_winner
  	end					
 	attr_accessor :final_hands	
 end
-object = Pick_winner.new
-final_hands = object.final_hands
-p final_hands[0]
-p final_hands[7]
-p final_hands[1]
-p final_hands[8]
-p final_hands[6]
-
-	# royal straight flush 90!
-	# straight flush 80!
-	# four of a kind 70!
-	# full house 60!
-	# flush 50!
-	# straight 40!
-	# three of a kind 30!
-	# two pairs 20!
-	# a pair 10!
-	# high card 0!
+class The_game
+	def initialize
+		arrays = Pick_winner.new
+		array = arrays.final_hands
+		@everything = []
+		@everything << array[0]
+		@everything << array[1]
+		@everything << array[6]
+		@everything
+	end
+	attr_reader :everything	 
+end
+all = The_game.new
+p all.everything
