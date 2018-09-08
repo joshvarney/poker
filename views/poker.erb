@@ -2,9 +2,19 @@
 	<body>
 		<form method="post" action="play_game">
 			<input type="submit" value="Deal">
-		</form>	
-		<%=game[0]%>
-		<%=game[1]%>
-		<%=game[2][0]%>
+		</form>
+		<%unless game == [""]%>
+			<h1>Black</h1>
+			<%game[0][1..5].each do |card|%>
+			<img src="/images/<%=card%>.png" style="width:75px">
+			<%end%>
+			<br><h3><%=game[0][6]%></h3>
+			<h1>White</h1>
+			<%game[1][1..5].each do |card|%>
+			<img src="/images/<%=card%>.png" style="width:75px">
+			<%end%>
+			<br><h3><%=game[1][6]%></h3><br>
+			<h1><%=game[2][0]%></h1>
+		<%end%>
 	</body>
 </html>
