@@ -58,9 +58,9 @@ class Group
 	def initialize
 		card_values = Card_values.new
 		value_hash = card_values.value_hash
-		# stuff = Deal_hands.new
-		# @check_hands = stuff.hands
-		@check_hands = [["Black:", "2D", "5S", "5H", "5C", "5D"], ["White:", "2D", "3C", "5H", "5C", "5S"]]
+		stuff = Deal_hands.new
+		@check_hands = stuff.hands
+		# @check_hands = [["Black:", "AD", "JS", "KH", "QC", "9D"], ["White:", "AD", "JC", "KH", "QC", "8S"]]
 		@check_hands[2] = []
 		@check_hands[3] = []
 		count = 2
@@ -276,18 +276,16 @@ class Pick_winner
 	 	counter = 0
 	  	result = ["Tie"]
 	  	black_high.each do |score|
-	  		p score
-	  		p white_high[counter]
-	  			if score > white_high[counter]
-	  				result = ["Black wins. - with #{black}"]
-	  				break
-	  			elsif score < white_high[counter]
-	  				result = ["White wins. - with #{white}"]
-	  				break
+	  		if score > white_high[counter]
+	  			result = ["Black wins. - with #{black}"]
+	  			break
+	  		elsif score < white_high[counter]
+	  			result = ["White wins. - with #{white}"]
+	  			break
 	 		end		 	
 	  		counter += 1
 	  	end
-	  	p result
+		check_winner[6] = result
 		check_winner	
  	end					
 	attr_accessor :final_hands	
@@ -298,6 +296,7 @@ p final_hands[0]
 p final_hands[7]
 p final_hands[1]
 p final_hands[8]
+p final_hands[6]
 
 	# royal straight flush 90!
 	# straight flush 80!
