@@ -2,7 +2,43 @@
 #  p things.check_hands
 #  p things.replace_cards
 #  p things.card_names
-
+# 		if black == "Royal Straight Flush" && white == "Royal Straight Flush" 
+	# 			result << "Tie"
+	# 		elsif black == "Royal Straight Flush"
+	# 			result << "Black wins. - with Royal Straight Flush"
+	# 		elsif white == "Royal Straight Flush"
+	# 			result << "White wins. - with Royal Straight Flush"
+	# 		elsif black == "Straight Flush" && white == "Straight Flush"
+	# 			if black_high[4] == white_high[4]
+	# 				result << "Tie" 
+	# 			elsif black_high[4] > white_high[4]
+	# 				result << "Black wins. - with #{black_name[4]} High Straight Flush"
+	# 			elsif black_high[4] < white_high[4]
+	# 				result << "White wins. - with #{white_name[4]} High Straight Flush"
+	# 			end
+	# 		elsif black == "Straight Flush"
+	# 			result << "Black wins. -with #{black_name[4]} High Straight Flush"		
+	# 		elsif white == "Straight Flush"
+	# 			result << "White wins. -with #{white_name[4]} High Straight Flush"
+	# 		elsif black.include?("Four of a Kind") && white.include?("Four of a Kind")
+	# 			if check_winner[7] > check_winner[8]
+	# 				result << "Black wins. -with #{black}"
+	# 			elsif check_winner[7] < check_winner[8]
+	# 				result << "White wins. -with #{white}"
+	# 			end	
+	# 		elsif black.include?("Four of a Kind")
+	# 			result << "Black wins. -with #{black}"
+	# 		elsif white.include?("Four of a Kind")
+	# 			result << "White wins. -with #{white}"				
+	# 		elsif black.include?("Full House") && white.include?("Full House")
+	# 			if check_winner[7] > check_winner[8]
+	# 				result << "Black wins. -with #{black}"
+	# 			elsif check_winner[7] < check_winner[8]
+	# 				result << "White wins. -with #{white}"	
+	# 		end
+	# 	check_winner[6] = result
+	# 	check_winner	
+	# end		
 
 def deck()
 	cards = []

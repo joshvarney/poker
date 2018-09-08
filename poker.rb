@@ -60,7 +60,7 @@ class Group
 		value_hash = card_values.value_hash
 		# stuff = Deal_hands.new
 		# @check_hands = stuff.hands
-		@check_hands = [["Black:", "JD", "JS", "9D", "JH", "9C"], ["White:", "KC", "KD", "QH", "KS", "QS"]]
+		@check_hands = [["Black:", "2D", "5S", "5H", "5C", "5D"], ["White:", "2D", "3C", "5H", "5C", "5S"]]
 		@check_hands[2] = []
 		@check_hands[3] = []
 		count = 2
@@ -187,7 +187,7 @@ class Checking_hands
 			check3 = hand[2] - hand[1]
 			check4 = hand[1] - hand[0]
 			if check1 == 1 && check2 == 1 && check3 == 1 && check4 == 1
-				checking_straight[counter][6] = "Straight"
+				checking_straight[counter][6] = "#{checking_straight[counter + 4][4]} High Straight"
 				checking_straight[counter + 7] = [40, checking_straight[counter + 2][4], checking_straight[counter + 2][3], checking_straight[counter + 2][2], checking_straight[counter + 2][1], checking_straight[counter + 2][0]]
 			end
 			counter += 1
@@ -207,16 +207,16 @@ class Checking_hands
 		compare_suits << suit_check[0..4]		
 		compare_suits << suit_check[5..9] 	
 		compare_suits.each do |hand|
-			if hand.uniq.length == 1 && checking_flush[counter][6] == "Straight"
+			if hand.uniq.length == 1 && checking_flush[counter][6].include?("High Straight")
 				if checking_flush[4 + counter][4] == "Ace"
 					checking_flush[counter][6] = "Royal Straight Flush"
 					checking_flush[counter + 7] = [90, checking_flush[counter + 2][4], checking_flush[counter + 2][3], checking_flush[counter + 2][2], checking_flush[counter + 2][1], checking_flush[counter + 2][0]]
 				else	
-					checking_flush[counter][6] = "Straight Flush"
+					checking_flush[counter][6] = "#{checking_flush[counter + 4][4]} High Straight Flush"
 				checking_flush[counter + 7] = [80, checking_flush[counter + 2][4], checking_flush[counter + 2][3], checking_flush[counter + 2][2], checking_flush[counter + 2][1], checking_flush[counter + 2][0]]
 				end	
-			elsif hand.uniq.length == 1 && checking_flush[counter][6] != "Straight"
-				checking_flush[counter][6] = "Flush"	
+			elsif hand.uniq.length == 1 && checking_flush[counter][6].include?("High Straight") == false
+				checking_flush[counter][6] = "#{checking_flush[counter + 4][4]} High Flush"	
 				checking_flush[counter + 7] = [50, checking_flush[counter + 2][4], checking_flush[counter + 2][3], checking_flush[counter + 2][2], checking_flush[counter + 2][1], checking_flush[counter + 2][0]]
 			end
 			counter += 1
@@ -265,55 +265,40 @@ class Pick_winner
 	def initialize
 		final = Checking_hands.new
 		@final_hands = final.hand_group
-		# check_winner << @final_hands
+		check_winner << @final_hands
 	end
-	# def check_winner
-	# 	check_winner = @final_hands
-	# 	black = check_winner[0][6]
-	# 	white = check_winner[1][6]
-	# 	black_high = check_winner[2]
-	# 	white_high = check_winner[3]
-	# 	black_name = check_winner[4]
-	# 	white_name = check_winner[5]
-	# 	result = []
-	# 		if black == "Royal Straight Flush" && white == "Royal Straight Flush" 
-	# 			result << "Tie"
-	# 		elsif black == "Royal Straight Flush"
-	# 			result << "Black wins. - with Royal Straight Flush"
-	# 		elsif white == "Royal Straight Flush"
-	# 			result << "White wins. - with Royal Straight Flush"
-	# 		elsif black == "Straight Flush" && white == "Straight Flush"
-	# 			if black_high[4] == white_high[4]
-	# 				result << "Tie" 
-	# 			elsif black_high[4] > white_high[4]
-	# 				result << "Black wins. - with #{black_name[4]} High Straight Flush"
-	# 			elsif black_high[4] < white_high[4]
-	# 				result << "White wins. - with #{white_name[4]} High Straight Flush"
-	# 			end
-	# 		elsif black == "Straight Flush"
-	# 			result << "Black wins. -with #{black_name[4]} High Straight Flush"		
-	# 		elsif white == "Straight Flush"
-	# 			result << "White wins. -with #{white_name[4]} High Straight Flush"
-	# 		elsif black.include?("Four of a Kind") && white.include?("Four of a Kind")
-	# 			if check_winner[7] > check_winner[8]
-	# 				result << "Black wins. -with #{black}"
-	# 			elsif check_winner[7] < check_winner[8]
-	# 				result << "White wins. -with #{white}"
-	# 			end	
-	# 		elsif black.include?("Four of a Kind")
-	# 			result << "Black wins. -with #{black}"
-	# 		elsif white.include?("Four of a Kind")
-	# 			result << "White wins. -with #{white}"				
-	# 		elsif black.include?("Full House") && white.include?("Full House")
-	# 			if check_winner[7] > check_winner[8]
-	# 				result << "Black wins. -with #{black}"
-	# 			elsif check_winner[7] < check_winner[8]
-	# 				result << "White wins. -with #{white}"	
-	# 		end
-	# 	check_winner[6] = result
-	# 	check_winner	
-	# end		
-	attr_accessor :final_hands
+	def check_winner
+	 	check_winner = @final_hands
+	  	black = check_winner[0][6]
+	  	white = check_winner[1][6]
+	  	black_high = check_winner[7]
+	  	white_high = check_winner[8]
+	 	counter = 0
+	  	result = ["Tie"]
+	  	black_high.each do |score|
+	  		p score
+	  		p white_high[counter]
+	  			if score > white_high[counter]
+	  				result = ["Black wins. - with #{black}"]
+	  				break
+	  			elsif score < white_high[counter]
+	  				result = ["White wins. - with #{white}"]
+	  				break
+	 		end		 	
+	  		counter += 1
+	  	end
+	  	p result
+		check_winner	
+ 	end					
+	attr_accessor :final_hands	
+end
+object = Pick_winner.new
+final_hands = object.final_hands
+p final_hands[0]
+p final_hands[7]
+p final_hands[1]
+p final_hands[8]
+
 	# royal straight flush 90!
 	# straight flush 80!
 	# four of a kind 70!
@@ -324,9 +309,3 @@ class Pick_winner
 	# two pairs 20!
 	# a pair 10!
 	# high card 0!
-end
-object = Pick_winner.new
-final_hands = object.final_hands
-p final_hands
-p final_hands[7]
-p final_hands[8]
