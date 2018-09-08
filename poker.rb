@@ -54,7 +54,7 @@ class Deal_hands
 	end
 	attr_accessor :hands
 end
-class Group
+class Group 
 	def initialize
 		card_values = Card_values.new
 		value_hash = card_values.value_hash
@@ -302,5 +302,5 @@ class The_game
 	end
 	attr_reader :everything	 
 end
-all = The_game.new
-p all.everything
+# all = The_game.new
+# p all.everything
