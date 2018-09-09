@@ -1,0 +1,62 @@
+html {
+	min-width: 1025px
+}
+body {
+	background-color: black;
+}
+#heading {
+	padding: 1px;
+	text-align: center;
+	background-color: green;
+	color: white;
+	border-top: 5px solid white;
+	border-left: 5px solid white;
+	border-right: 5px solid white;
+}
+* {
+    box-sizing: border-box;
+}
+.button {
+	width: 80px;
+}
+#deal {
+	text-align: center;
+	margin: auto;
+	color: white;
+	background-color: green;
+	border-top: 5px solid white;
+	border-bottom: 5px solid white;
+	width: 20%;
+	height: 280px;
+}
+#black {
+	margin-top: -296px;
+	text-align: center;
+	color: white;
+	background-color: green;
+	border: 5px solid white;
+	float: left;
+	width: 40%;
+	height: 280px;
+}
+#white {
+	margin-top: -296px;
+	text-align: center;
+	color: white;
+	background-color: green;
+	border: 5px solid white;
+	float: right;
+	width: 40%;
+	height: 280px;
+}
+#winner {
+	padding-top: 1px;
+	color: white;
+	background-color: green;
+	border-bottom: 5px solid white;
+	border-left: 5px solid white;
+	border-right: 5px solid white;
+	text-align: center;
+	width: 100%;
+	margin-top: -16px;
+}

@@ -1,20 +1,39 @@
 <html>
 	<body>
+		<div id="heading">
+			<h1>Varney's Poker Game!</h1>
+		</div>
 		<form method="post" action="play_game">
-			<input type="submit" value="Deal">
+			<div id="deal">
+				<h1>Deal</h1>
+				<input class="button" type="image" src="/images/deck2.jpeg" alt="submit">
+				<br><h3>(Click the Deck)</h3>
+			</div>
 		</form>
+		<div id="black">
+		<h1>Black</h1>
+		</div>
+		<div id="white">
+		<h1>White</h1>
+		</div>
 		<%unless game == [""]%>
-			<h1>Black</h1>
-			<%game[0][1..5].each do |card|%>
-			<img src="/images/<%=card%>.png" style="width:75px">
-			<%end%>
-			<br><h3><%=game[0][6]%></h3>
-			<h1>White</h1>
-			<%game[1][1..5].each do |card|%>
-			<img src="/images/<%=card%>.png" style="width:75px">
-			<%end%>
-			<br><h3><%=game[1][6]%></h3><br>
-			<h1><%=game[2][0]%></h1>
+			<div id="black">		
+				<h1>Black</h1>
+				<%game[0][1..5].each do |card|%>
+					<img src="/images/<%=card%>.png" style="width:75px">
+				<%end%>
+				<br><h3><%=game[0][6]%></h3>
+			</div>
+			<div id="white">	
+				<h1>White</h1>
+				<%game[1][1..5].each do |card|%>
+					<img src="/images/<%=card%>.png" style="width:75px">
+				<%end%>
+				<br><h3><%=game[1][6]%></h3><br>
+			</div>
+			<div id="winner">	
+				<h1><%=game[2][0]%></h1>
+			</div>
 		<%end%>
 	</body>
 </html>
