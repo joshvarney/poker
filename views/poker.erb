@@ -10,13 +10,23 @@
 				<br><h3>(Click the Deck)</h3>
 			</div>
 		</form>
-		<div id="black">
-		<h1>Black</h1>
-		</div>
-		<div id="white">
-		<h1>White</h1>
-		</div>
-		<%unless game == [""]%>
+		<%if game == [""]%>
+			<div id="black">
+			<h1>Black</h1>
+			<%5.times do%>
+				<img src="/images/blank_card.png" style="width:75px">
+			<%end%>	
+			</div>
+			<div id="white">
+			<h1>White</h1>
+			<%5.times do%>
+				<img src="/images/blank_card.png" style="width:75px">
+			<%end%>	
+			</div>
+			<div id="winner">
+			<h1 style="color:green">Blank</h1>
+			</div>
+		<%else%>
 			<div id="black">		
 				<h1>Black</h1>
 				<%game[0][1..5].each do |card|%>
