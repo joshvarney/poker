@@ -63,3 +63,9 @@ body {
 #cards {
 	width: 75px;
 }
+#stuff {
+	text-align: center;
+	border: 2px solid white;
+	height: 90px;
+	width: 75px;
+}
