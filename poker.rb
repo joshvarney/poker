@@ -298,7 +298,7 @@ class The_game
 		@everything << array[0]
 		@everything << array[1]
 		@everything << array[6]
-		@everything = array
+		@everything
 	end
 	attr_reader :everything	 
 end
